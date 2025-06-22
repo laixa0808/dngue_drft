@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Dengue Monitoring</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <ul>
+                <li><a href="#admin-dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#insert-data"><i class="fas fa-database"></i> Insert Data</a></li>
+                <li><a href="#admin-predictions"><i class="fas fa-chart-line"></i> Predictions</a></li>
+                <li><a href="#admin-barangay"><i class="fas fa-city"></i> Barangay</a></li>
+                <li><a href="#admin-year"><i class="fas fa-calendar-alt"></i> Year</a></li>
+                <li><a href="#admin-prevention"><i class="fas fa-shield-alt"></i> Prevention</a></li>
+                <li><a href="#admin-contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <header>
+                 <h1>Admin Dashboard</h1>
+                 <button class="logout-btn">Log Out <i class="fas fa-sign-out-alt"></i></button>
+            </header>
+            
+            <div id="admin-dashboard" class="content-section">
+                <div class="dashboard-controls">
+                    <label for="barangay-select">Select Barangay:</label>
+                    <select id="barangay-select">
+                        <option value="all">All Barangays</option>
+                        <option value="brgy1">Barangay 1</option>
+                        <option value="brgy2">Barangay 2</option>
+                        <option value="brgy3">Barangay 3</option>
+                    </select>
+                </div>
+                <div class="charts">
+                    <div class="chart-card">
+                        <h3>Cases Overview</h3>
+                        <div class="chart-placeholder"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Demographics</h3>
+                        <div class="chart-placeholder"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="insert-data" class="content-section">
+                <h2>Insert New Dengue Case Data</h2>
+                <form class="data-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="case-date">Date</label>
+                            <input type="date" id="case-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="case-barangay">Barangay</label>
+                            <select id="case-barangay" required>
+                                <option value="">Select Barangay</option>
+                                <option value="brgy1">Barangay 1</option>
+                                <option value="brgy2">Barangay 2</option>
+                                <option value="brgy3">Barangay 3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="case-age">Age</label>
+                            <input type="number" id="case-age" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="case-gender">Gender</label>
+                            <select id="case-gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-data-btn">Submit Data</button>
+                </form>
+            </div>
+
+            <div id="admin-predictions" class="content-section">
+                <h2>Predictions Management</h2>
+                <p>Configure prediction models and view detailed forecast data.</p>
+            </div>
+            <div id="admin-barangay" class="content-section">
+                <h2>Barangay Management</h2>
+                <p>Add, edit, or remove barangay data from the system.</p>
+            </div>
+            <div id="admin-year" class="content-section">
+                <h2>Yearly Reports</h2>
+                <p>Generate and view detailed yearly reports.</p>
+            </div>
+            <div id="admin-prevention" class="content-section">
+                <h2>Prevention Info Management</h2>
+                <p>Update the prevention tips and information shown to the public.</p>
+            </div>
+            <div id="admin-contact" class="content-section">
+                <h2>Contact Info Management</h2>
+                <p>Update the contact information displayed on the public page.</p>
+            </div>
+
+        </main>
+    </div>
+    <script src="admin.js"></script>
+</body>
+</html> 
