@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Dengue Monitoring</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div id="admin-login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Admin Login</h2>
+            <form id="admin-login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" placeholder="Enter Email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter Password" required>
+                </div>
+                <div class="form-group remember-me">
+                    <input type="checkbox" id="remember-me">
+                    <label for="remember-me">Remember me</label>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+                <a href="#" class="forgot-password">Forgot password?</a>
+                <button type="button" class="cancel-btn">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="sidebar">
+            <ul>
+                <li><a href="#admin-dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#insert-data"><i class="fas fa-database"></i> Insert Data</a></li>
+                <li><a href="#admin-predictions"><i class="fas fa-chart-line"></i> Predictions</a></li>
+                <li><a href="#admin-barangay"><i class="fas fa-city"></i> Barangay</a></li>
+                <li><a href="#admin-year"><i class="fas fa-calendar-alt"></i> Year</a></li>
+                <li><a href="#admin-prevention"><i class="fas fa-shield-alt"></i> Prevention</a></li>
+                <li><a href="#admin-contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <header>
+                 <h1>Admin Dashboard</h1>
+                 <button class="logout-btn">Log Out <i class="fas fa-sign-out-alt"></i></button>
+            </header>
+            
+            <div id="admin-dashboard" class="content-section">
+                <h2>Dashboard Overview</h2>
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <h3>Total Cases</h3>
+                        <p class="stat-number" id="total-cases">0</p>
+                        <p class="stat-change">+0% from last month</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Cases</h3>
+                        <p class="stat-number" id="active-cases">0</p>
+                        <p class="stat-change">+0% from last month</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>High Risk Areas</h3>
+                        <p class="stat-number" id="high-risk-areas">0</p>
+                        <p class="stat-change">+0% from last month</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Recovery Rate</h3>
+                        <p class="stat-number" id="recovery-rate">0%</p>
+                        <p class="stat-change">+0% from last month</p>
+                    </div>
+                </div>
+                
+                <div class="dashboard-controls">
+                    <label for="barangay-select">Select Barangay:</label>
+                    <select id="barangay-select">
+                        <option value="all">All Barangays</option>
+                        <!-- Barangay options will be populated dynamically -->
+                    </select>
+                    <label for="date-range">Date Range:</label>
+                    <select id="date-range">
+                        <option value="7">Last 7 days</option>
+                        <option value="30" selected>Last 30 days</option>
+                        <option value="90">Last 3 months</option>
+                        <option value="365">Last year</option>
+                    </select>
+                </div>
+                
+                <div class="charts">
+                    <div class="chart-card">
+                        <h3>Cases Overview</h3>
+                        <div class="chart-placeholder"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Demographics</h3>
+                        <div class="chart-placeholder"></div>
+                    </div>
+                </div>
+                
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <span class="activity-time">2 hours ago</span>
+                            <span class="activity-text">New case reported in Barangay San Rafael</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-time">4 hours ago</span>
+                            <span class="activity-text">Data updated for Barangay San Antonio 1</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-time">1 day ago</span>
+                            <span class="activity-text">Monthly report generated</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="insert-data" class="content-section">
+                <h2>Insert New Dengue Case Data</h2>
+                <div class="data-insertion-tabs">
+                    <button class="tab-btn active" data-tab="single">Single Case</button>
+                    <button class="tab-btn" data-tab="bulk">Bulk Upload</button>
+                </div>
+                
+                <div id="single-case-tab" class="tab-content active">
+                    <form class="data-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="case-date">Date of Case</label>
+                                <input type="date" id="case-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="case-barangay">Barangay</label>
+                                <select id="case-barangay" required>
+                                    <option value="">Select Barangay</option>
+                                    <!-- Barangay options will be populated dynamically -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="case-age">Age</label>
+                                <input type="number" id="case-age" min="0" max="120" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="case-gender">Gender</label>
+                                <select id="case-gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="case-severity">Severity Level</label>
+                                <select id="case-severity" required>
+                                    <option value="">Select Severity</option>
+                                    <option value="mild">Mild</option>
+                                    <option value="moderate">Moderate</option>
+                                    <option value="severe">Severe</option>
+                                    <option value="critical">Critical</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="case-status">Status</label>
+                                <select id="case-status" required>
+                                    <option value="">Select Status</option>
+                                    <option value="active">Active</option>
+                                    <option value="recovered">Recovered</option>
+                                    <option value="hospitalized">Hospitalized</option>
+                                    <option value="deceased">Deceased</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="case-notes">Additional Notes</label>
+                            <textarea id="case-notes" rows="3" placeholder="Enter any additional information about the case..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-data-btn">Submit Case Data</button>
+                    </form>
+                </div>
+                
+                <div id="bulk-upload-tab" class="tab-content">
+                    <div class="bulk-upload-section">
+                        <h3>Bulk Data Upload</h3>
+                        <p>Upload multiple cases at once using a CSV file. Download the template below for the correct format.</p>
+                        <div class="upload-actions">
+                            <button type="button" class="download-template-btn">Download Template</button>
+                            <input type="file" id="bulk-upload-file" accept=".csv" style="display: none;">
+                            <button type="button" class="upload-file-btn" onclick="document.getElementById('bulk-upload-file').click()">Choose File</button>
+                            <span id="selected-file-name">No file selected</span>
+                        </div>
+                        <button type="button" class="process-bulk-btn" disabled>Process Upload</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="admin-predictions" class="content-section">
+                <h2>Predictions Management</h2>
+                <div class="predictions-overview">
+                    <div class="prediction-stats">
+                        <div class="stat-card">
+                            <h3>Model Accuracy</h3>
+                            <p class="stat-number">85.2%</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Last Updated</h3>
+                            <p class="stat-number">2 days ago</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Next Prediction</h3>
+                            <p class="stat-number">Tomorrow</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="prediction-controls">
+                    <h3>Model Configuration</h3>
+                    <form class="model-config-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prediction-horizon">Prediction Horizon (months)</label>
+                                <select id="prediction-horizon">
+                                    <option value="1">1 month</option>
+                                    <option value="3" selected>3 months</option>
+                                    <option value="6">6 months</option>
+                                    <option value="12">12 months</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="confidence-level">Confidence Level</label>
+                                <select id="confidence-level">
+                                    <option value="0.90">90%</option>
+                                    <option value="0.95" selected>95%</option>
+                                    <option value="0.99">99%</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="model-parameters">Model Parameters</label>
+                            <textarea id="model-parameters" rows="4" placeholder="Enter model parameters in JSON format..."></textarea>
+                        </div>
+                        <button type="submit" class="update-model-btn">Update Model</button>
+                    </form>
+                </div>
+                
+                <div class="prediction-history">
+                    <h3>Prediction History</h3>
+                    <div class="prediction-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Predicted Cases</th>
+                                    <th>Actual Cases</th>
+                                    <th>Accuracy</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2024-01-15</td>
+                                    <td>45</td>
+                                    <td>42</td>
+                                    <td>93.3%</td>
+                                    <td><button class="view-details-btn">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2024-01-01</td>
+                                    <td>38</td>
+                                    <td>41</td>
+                                    <td>92.7%</td>
+                                    <td><button class="view-details-btn">View Details</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="admin-barangay" class="content-section">
+                <h2>Barangay Management</h2>
+                <div class="barangay-actions">
+                    <button class="add-barangay-btn">Add New Barangay</button>
+                    <button class="export-barangay-btn">Export Data</button>
+                    <button class="import-barangay-btn">Import Data</button>
+                </div>
+                
+                <div class="barangay-list">
+                    <div class="search-filter">
+                        <input type="text" id="barangay-search" placeholder="Search barangays...">
+                        <select id="barangay-filter">
+                            <option value="all">All Barangays</option>
+                            <option value="high-risk">High Risk</option>
+                            <option value="medium-risk">Medium Risk</option>
+                            <option value="low-risk">Low Risk</option>
+                        </select>
+                    </div>
+                    
+                    <div class="barangay-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Barangay Name</th>
+                                    <th>Population</th>
+                                    <th>Total Cases</th>
+                                    <th>Active Cases</th>
+                                    <th>Risk Level</th>
+                                    <th>Last Updated</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="barangay-table-body">
+                                <!-- Barangay data will be populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="add-barangay-modal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close-btn">&times;</span>
+                        <h3>Add New Barangay</h3>
+                        <form class="add-barangay-form">
+                            <div class="form-group">
+                                <label for="new-barangay-name">Barangay Name</label>
+                                <input type="text" id="new-barangay-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-barangay-population">Population</label>
+                                <input type="number" id="new-barangay-population" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-barangay-coordinates">Coordinates</label>
+                                <input type="text" id="new-barangay-coordinates" placeholder="Latitude, Longitude">
+                            </div>
+                            <div class="form-group">
+                                <label for="new-barangay-description">Description</label>
+                                <textarea id="new-barangay-description" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="save-barangay-btn">Save Barangay</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="admin-year" class="content-section">
+                <h2>Yearly Reports</h2>
+                <div class="yearly-controls">
+                    <div class="year-selector">
+                        <label for="report-year">Select Year:</label>
+                        <select id="report-year">
+                            <option value="2024" selected>2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                        </select>
+                    </div>
+                    <div class="report-actions">
+                        <button class="generate-report-btn">Generate Report</button>
+                        <button class="export-report-btn">Export PDF</button>
+                        <button class="email-report-btn">Email Report</button>
+                    </div>
+                </div>
+                
+                <div class="yearly-summary">
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <h3>Total Cases</h3>
+                            <p class="summary-number" id="yearly-total-cases">0</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Peak Month</h3>
+                            <p class="summary-number" id="yearly-peak-month">--</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Most Affected Age Group</h3>
+                            <p class="summary-number" id="yearly-age-group">--</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Recovery Rate</h3>
+                            <p class="summary-number" id="yearly-recovery-rate">0%</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="yearly-charts">
+                    <div class="chart-container">
+                        <h3>Monthly Distribution</h3>
+                        <div class="chart-placeholder"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Age Group Analysis</h3>
+                        <div class="chart-placeholder"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Gender Distribution</h3>
+                        <div class="chart-placeholder"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Barangay Comparison</h3>
+                        <div class="chart-placeholder"></div>
+                    </div>
+                </div>
+                
+                <div class="yearly-details">
+                    <h3>Detailed Statistics</h3>
+                    <div class="details-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>New Cases</th>
+                                    <th>Recovered</th>
+                                    <th>Hospitalized</th>
+                                    <th>Deceased</th>
+                                    <th>Active Cases</th>
+                                </tr>
+                            </thead>
+                            <tbody id="yearly-details-body">
+                                <!-- Monthly details will be populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="admin-prevention" class="content-section">
+                <h2>Prevention Info Management</h2>
+                <div class="prevention-sections">
+                    <div class="prevention-tabs">
+                        <button class="prevention-tab active" data-tab="tips">Prevention Tips</button>
+                        <button class="prevention-tab" data-tab="symptoms">Symptoms</button>
+                        <button class="prevention-tab" data-tab="treatments">Treatments</button>
+                        <button class="prevention-tab" data-tab="resources">Resources</button>
+                    </div>
+                    
+                    <div id="tips-content" class="prevention-content active">
+                        <h3>Prevention Tips</h3>
+                        <div class="tips-editor">
+                            <div class="tip-item">
+                                <h4>Tip 1: Eliminate Breeding Sites</h4>
+                                <textarea class="tip-content" rows="3">Remove standing water from containers, flower pots, and other items that can collect water. Clean gutters and drains regularly.</textarea>
+                                <div class="tip-actions">
+                                    <button class="save-tip-btn">Save</button>
+                                    <button class="delete-tip-btn">Delete</button>
+                                </div>
+                            </div>
+                            <div class="tip-item">
+                                <h4>Tip 2: Use Mosquito Repellent</h4>
+                                <textarea class="tip-content" rows="3">Apply mosquito repellent containing DEET, picaridin, or oil of lemon eucalyptus when outdoors, especially during dawn and dusk.</textarea>
+                                <div class="tip-actions">
+                                    <button class="save-tip-btn">Save</button>
+                                    <button class="delete-tip-btn">Delete</button>
+                                </div>
+                            </div>
+                            <button class="add-tip-btn">Add New Tip</button>
+                        </div>
+                    </div>
+                    
+                    <div id="symptoms-content" class="prevention-content">
+                        <h3>Dengue Symptoms</h3>
+                        <div class="symptoms-editor">
+                            <div class="symptom-category">
+                                <h4>Early Symptoms (Days 1-3)</h4>
+                                <textarea class="symptom-content" rows="4">High fever (104°F/40°C), severe headache, pain behind the eyes, muscle and joint pain, nausea, vomiting, swollen glands, rash.</textarea>
+                                <button class="save-symptom-btn">Save</button>
+                            </div>
+                            <div class="symptom-category">
+                                <h4>Warning Signs (Days 4-7)</h4>
+                                <textarea class="symptom-content" rows="4">Severe abdominal pain, persistent vomiting, rapid breathing, bleeding gums, fatigue, restlessness, blood in vomit or stool.</textarea>
+                                <button class="save-symptom-btn">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="treatments-content" class="prevention-content">
+                        <h3>Treatment Information</h3>
+                        <div class="treatment-editor">
+                            <div class="treatment-item">
+                                <h4>Home Care</h4>
+                                <textarea class="treatment-content" rows="4">Rest, stay hydrated, take acetaminophen for fever and pain. Avoid aspirin and ibuprofen as they can increase bleeding risk.</textarea>
+                                <button class="save-treatment-btn">Save</button>
+                            </div>
+                            <div class="treatment-item">
+                                <h4>When to Seek Medical Care</h4>
+                                <textarea class="treatment-content" rows="4">Seek immediate medical attention if you experience severe abdominal pain, persistent vomiting, bleeding, difficulty breathing, or signs of shock.</textarea>
+                                <button class="save-treatment-btn">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="resources-content" class="prevention-content">
+                        <h3>Additional Resources</h3>
+                        <div class="resources-editor">
+                            <div class="resource-item">
+                                <h4>Emergency Contacts</h4>
+                                <textarea class="resource-content" rows="3">San Pablo City Health Office: (049) 562-1234
+Emergency Hotline: 911
+Dengue Hotline: 1555</textarea>
+                                <button class="save-resource-btn">Save</button>
+                            </div>
+                            <div class="resource-item">
+                                <h4>Useful Links</h4>
+                                <textarea class="resource-content" rows="3">Department of Health: https://doh.gov.ph
+WHO Dengue Information: https://who.int/dengue
+Local Health Updates: https://sanpablo.gov.ph/health</textarea>
+                                <button class="save-resource-btn">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="admin-contact" class="content-section">
+                <h2>Contact Info Management</h2>
+                <div class="contact-sections">
+                    <div class="contact-tabs">
+                        <button class="contact-tab active" data-tab="emergency">Emergency Contacts</button>
+                        <button class="contact-tab" data-tab="healthcare">Healthcare Facilities</button>
+                        <button class="contact-tab" data-tab="officials">Government Officials</button>
+                        <button class="contact-tab" data-tab="social">Social Media</button>
+                    </div>
+                    
+                    <div id="emergency-content" class="contact-content active">
+                        <h3>Emergency Contacts</h3>
+                        <div class="contact-list">
+                            <div class="contact-item">
+                                <div class="contact-info">
+                                    <h4>Emergency Hotline</h4>
+                                    <p>911</p>
+                                    <p>24/7 Emergency Response</p>
+                                </div>
+                                <div class="contact-actions">
+                                    <button class="edit-contact-btn">Edit</button>
+                                    <button class="delete-contact-btn">Delete</button>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-info">
+                                    <h4>Dengue Hotline</h4>
+                                    <p>1555</p>
+                                    <p>Dengue-specific assistance</p>
+                                </div>
+                                <div class="contact-actions">
+                                    <button class="edit-contact-btn">Edit</button>
+                                    <button class="delete-contact-btn">Delete</button>
+                                </div>
+                            </div>
+                            <button class="add-contact-btn">Add New Contact</button>
+                        </div>
+                    </div>
+                    
+                    <div id="healthcare-content" class="contact-content">
+                        <h3>Healthcare Facilities</h3>
+                        <div class="facility-list">
+                            <div class="facility-item">
+                                <div class="facility-info">
+                                    <h4>San Pablo City District Hospital</h4>
+                                    <p>Address: Brgy. San Rafael, San Pablo City</p>
+                                    <p>Phone: (049) 800-4150</p>
+                                    <p>Services: Emergency care, General medicine</p>
+                                </div>
+                                <div class="facility-actions">
+                                    <button class="edit-facility-btn">Edit</button>
+                                    <button class="delete-facility-btn">Delete</button>
+                                </div>
+                            </div>
+                            <div class="facility-item">
+                                <div class="facility-info">
+                                    <h4>San Pablo Colleges Medical Center</h4>
+                                    <p>Address: Maharlika Highway, Brgy. San Rafael</p>
+                                    <p>Phone: (049) 503-1351</p>
+                                    <p>Services: Specialty clinics, 24/7 emergency</p>
+                                </div>
+                                <div class="facility-actions">
+                                    <button class="edit-facility-btn">Edit</button>
+                                    <button class="delete-facility-btn">Delete</button>
+                                </div>
+                            </div>
+                            <button class="add-facility-btn">Add New Facility</button>
+                        </div>
+                    </div>
+                    
+                    <div id="officials-content" class="contact-content">
+                        <h3>Government Officials</h3>
+                        <div class="officials-list">
+                            <div class="official-item">
+                                <div class="official-info">
+                                    <h4>City Health Officer</h4>
+                                    <p>Dr. Maria Santos</p>
+                                    <p>Phone: (049) 562-1234</p>
+                                    <p>Email: health@sanpablo.gov.ph</p>
+                                </div>
+                                <div class="official-actions">
+                                    <button class="edit-official-btn">Edit</button>
+                                    <button class="delete-official-btn">Delete</button>
+                                </div>
+                            </div>
+                            <div class="official-item">
+                                <div class="official-info">
+                                    <h4>Mayor's Office</h4>
+                                    <p>Mayor Juan Dela Cruz</p>
+                                    <p>Phone: (049) 562-1000</p>
+                                    <p>Email: mayor@sanpablo.gov.ph</p>
+                                </div>
+                                <div class="official-actions">
+                                    <button class="edit-official-btn">Edit</button>
+                                    <button class="delete-official-btn">Delete</button>
+                                </div>
+                            </div>
+                            <button class="add-official-btn">Add New Official</button>
+                        </div>
+                    </div>
+                    
+                    <div id="social-content" class="contact-content">
+                        <h3>Social Media & Online Presence</h3>
+                        <div class="social-list">
+                            <div class="social-item">
+                                <div class="social-info">
+                                    <h4>Facebook</h4>
+                                    <p>San Pablo City Health Office</p>
+                                    <p>@SanPabloHealth</p>
+                                </div>
+                                <div class="social-actions">
+                                    <button class="edit-social-btn">Edit</button>
+                                    <button class="delete-social-btn">Delete</button>
+                                </div>
+                            </div>
+                            <div class="social-item">
+                                <div class="social-info">
+                                    <h4>Website</h4>
+                                    <p>Official City Health Portal</p>
+                                    <p>https://health.sanpablo.gov.ph</p>
+                                </div>
+                                <div class="social-actions">
+                                    <button class="edit-social-btn">Edit</button>
+                                    <button class="delete-social-btn">Delete</button>
+                                </div>
+                            </div>
+                            <button class="add-social-btn">Add New Platform</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="login-overlay" class="overlay"></div>
+
+    <script src="admin.js"></script>
+</body>
+</html> 
