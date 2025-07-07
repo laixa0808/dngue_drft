@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>San Pablo Dengue Risk Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="map-container">
+    <div id="map"></div>
+    <div class="legend">
+      <h4>Dengue Risk Level</h4>
+      <div><i style="background: #d73027"></i> High</div>
+      <div><i style="background: #fc8d59"></i>Medium</div>
+      <div><i style="background: #77eb1f"></i>Very Low</div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script id="geojson-data" type="application/json">{{ geojson_data | tojson | safe }}</script>
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
+
